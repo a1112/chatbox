@@ -21,6 +21,7 @@ import './legacy-database-migration'
  * `./src/main.js` using webpack. This gives us some performance wins.
  */
 
+import { registerResourceMonitor } from './resource-monitor'
 import fs from 'node:fs'
 import { app, BrowserWindow, dialog, globalShortcut, ipcMain, Menu, nativeTheme, session, shell, Tray } from 'electron'
 import electronDebug from 'electron-debug'
@@ -1181,3 +1182,5 @@ registerAgentPersonaHandlers()
 if (!IS_HARMONY_BUILD) {
   registerDesktopDirectRequestHandlers()
 }
+
+registerResourceMonitor()

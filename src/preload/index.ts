@@ -69,3 +69,7 @@ const electronHandler: ElectronIPC = {
 }
 
 contextBridge.exposeInMainWorld('electronAPI', electronHandler)
+
+contextBridge.exposeInMainWorld('appResourceMonitor', {
+  snapshot: () => ipcRenderer.invoke('app-resources:snapshot'),
+})

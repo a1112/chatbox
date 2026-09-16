@@ -1,3 +1,4 @@
+import './project-resource-monitor.js'
 import { SplashScreen } from '@capacitor/splash-screen'
 import { ChatboxProvider } from '@chatbox/react'
 import '@mantine/core/styles.css'
