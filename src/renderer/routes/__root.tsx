@@ -63,6 +63,7 @@ import SearchDialog from '@/pages/SearchDialog'
 import platform from '@/platform'
 import { getSettingsSearchParam, navigateToDynamicPath, router } from '@/router'
 import Sidebar from '@/Sidebar'
+import PlaygroundPanel from '@/playground/Panel'
 import storage from '@/storage'
 import * as atoms from '@/stores/atoms'
 
@@ -238,10 +239,7 @@ function Root() {
       const needsSetup = settingActions.needEditSetting()
 
       // Auto-navigate to guide for new users who need setup
-      if (!isExceeded && !onboardingCompleted && needsSetup) {
-        router.navigate({ to: '/guide', replace: true })
-        return
-      }
+      // The independent playground uses PlaygroundPanel for first-run local setup.
 
       // 是否需要弹出关于窗口（更新后首次启动）
       // 目前仅在桌面版本更新后首次启动、且网络环境为"外网"的情况下才自动弹窗
@@ -369,6 +367,7 @@ function Root() {
       dir={language === 'ar' ? 'rtl' : 'ltr'}
     >
       <BackgroundImageOverlay />
+      <PlaygroundPanel />
       {platform.isDesktopLike && (getOS() === 'Windows' || getOS() === 'Linux') && <ExitFullscreenButton />}
       <Grid container className="h-full relative z-[1]">
         <Sidebar />

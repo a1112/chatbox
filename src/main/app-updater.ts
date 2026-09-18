@@ -23,8 +23,8 @@ export class AppUpdater {
 
     log.transports.file.level = 'info'
     autoUpdater.logger = log
-    autoUpdater.autoDownload = true
-    autoUpdater.autoInstallOnAppQuit = true
+    autoUpdater.autoDownload = false
+    autoUpdater.autoInstallOnAppQuit = false
 
     autoUpdater.on('checking-for-update', () => {
       sendToRenderer(this.getWindow(), 'updater:checking')
@@ -93,6 +93,8 @@ export class AppUpdater {
   }
 
   async tryUpdate() {
+    // This independently patched distribution is pinned; only explicit rebuilds update it.
+    if (process.env.PLAYGROUND_ALLOW_UPSTREAM_UPDATE !== 'explicitly-enabled') return null
     if (this.isChecking) {
       log.info('auto_updater: check already in progress, skipping')
       return null

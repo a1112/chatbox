@@ -1,6 +1,6 @@
 {
-  "name": "xyz.chatboxapp.ce",
-  "productName": "xyz.chatboxapp.ce",
+  "name": "model-playground",
+  "productName": "ModelPlayground",
   "version": "0.0.1",
   "engines": {
     "node": ">=22.13.0 <23.0.0",
@@ -70,7 +70,9 @@
     "sync:error-i18n-keys": "node script/sync-error-i18n-keys.mjs",
     "translate": "pnpm run sync:error-i18n-keys && i18next && node script/translate.mjs",
     "storybook": "cross-env NODE_OPTIONS=\"--require=./.storybook/ignore-root-env.cjs\" storybook dev -p 6006",
-    "build-storybook": "cross-env NODE_OPTIONS=\"--require=./.storybook/ignore-root-env.cjs\" storybook build"
+    "build-storybook": "cross-env NODE_OPTIONS=\"--require=./.storybook/ignore-root-env.cjs\" storybook build",
+    "playground:build-web": "cross-env CHATBOX_BUILD_PLATFORM=web CHATBOX_ELECTRON_VITE_TARGET=renderer electron-vite build && node playground/distribute.mjs",
+    "playground:package": "pnpm run build && cross-env UPDATE_CHANNEL=alpha electron-builder --win nsis --x64 --publish never"
   },
   "repository": {
     "type": "git",
@@ -386,5 +388,5 @@
       "shell-quote": "1.10.0"
     }
   },
-  "packageManager": "pnpm@10.33.0+sha512.10568bb4a6afb58c9eb3630da90cc9516417abebd3fabbe6739f0ae795728da1491e9db5a544c76ad8eb7570f5c4bb3d6c637b2cb41bfdcdb47fa823c8649319"
+  "packageManager": "pnpm@10.33.0"
 }

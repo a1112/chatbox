@@ -209,7 +209,7 @@ export async function exportBackupArchive(options: BackupExportOptions): Promise
     if (options.exportItems.includes('setting')) {
       const settings = await options.storage.getItem<Settings | null>(BackupStorageKey.Settings, null)
       if (settings) {
-        cleanedSettings = cleanSettingsForBackup(settings, options.includeKeys)
+        cleanedSettings = cleanSettingsForBackup(settings, false)
         addResourceReferences(
           resourceCandidates,
           collectGlobalResourceReferences(cleanedSettings as Partial<Settings>, undefined)

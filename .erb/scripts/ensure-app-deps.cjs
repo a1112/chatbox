@@ -79,6 +79,7 @@ function readPnpmProductionDependencyTree(appDir) {
     {
       cwd: appDir,
       stdio: ['ignore', 'pipe', 'ignore'],
+      maxBuffer: 64 * 1024 * 1024,
       env: { ...process.env, COREPACK_ENABLE_STRICT: '0' },
     },
   ).toString()

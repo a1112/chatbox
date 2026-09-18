@@ -36,7 +36,7 @@ export function needEditSetting() {
         (key) =>
           (key === ModelProviderEnum.Ollama ||
             key === ModelProviderEnum.LMStudio ||
-            key.startsWith('custom-provider')) &&
+            key.startsWith('custom-provider') || key.startsWith('playground-')) &&
           providers[key].models?.length
       ).length > 0
     ) {

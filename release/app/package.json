@@ -1,6 +1,6 @@
 {
-  "name": "xyz.chatboxapp.ce",
-  "productName": "xyz.chatboxapp.ce",
+  "name": "model-playground",
+  "productName": "ModelPlayground",
   "version": "1.23.2",
   "description": "A desktop client for multiple cutting-edge AI models",
   "author": {

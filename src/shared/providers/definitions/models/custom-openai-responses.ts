@@ -31,7 +31,7 @@ export default class CustomOpenAIResponses extends AbstractAISDKModel {
     dependencies: ModelDependencies
   ) {
     super(options, dependencies)
-    const { apiHost, apiPath } = normalizeOpenAIResponsesHostAndPath(options)
+    const { apiHost, apiPath } = options.apiPath ? { apiHost: options.apiHost.replace(/\/$/, ''), apiPath: options.apiPath } : normalizeOpenAIResponsesHostAndPath(options)
     this.options = { ...options, apiHost, apiPath }
   }
 

@@ -1256,7 +1256,7 @@ const InputBox = forwardRef<InputBoxRef, InputBoxProps>(
     const isAgentModeActive = agentModeUIState.isActive
 
     const insertFiles = async (files: File[], options: InsertFilesOptions = {}) => {
-      const MAX_IMAGES = 8
+      const MAX_IMAGES = 4
       const MAX_ATTACHMENTS = 20
       // 用本地累加器跟踪本次新增数量：同步循环内 state/ref 可能尚未刷新，靠它做无竞态的限额判断
       let imageCount = preConstructedMessageRef.current.pictureKeys?.length || 0
@@ -1267,6 +1267,10 @@ const InputBox = forwardRef<InputBoxRef, InputBoxProps>(
       for (const file of files) {
         // 文件和图片插入方法复用，会导致 svg、gif 这类不支持的图片也被插入，但暂时没看到有什么问题
         if (file.type.startsWith('image/')) {
+          if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 5 * 1024 * 1024) {
+            toastActions.add('图片仅支持 JPEG、PNG、WebP，每张不超过 5 MiB。')
+            continue
+          }
           // 超过上限时直接跳过：保留最先添加的前 8 张，且不浪费转码/不产生孤儿 blob
           if (imageCount >= MAX_IMAGES) {
             droppedImages++

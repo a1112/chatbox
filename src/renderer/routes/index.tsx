@@ -112,7 +112,7 @@ function Index() {
         isLoggedIn,
         hasLicense,
         hasExpiredLicense,
-        hideForStoreReview: isExceeded || !isExceededResolved,
+        hideForStoreReview: true, // Independent playground starts with local connection setup.
       }),
     [providers.length, isLoggedIn, hasLicense, hasExpiredLicense, isExceeded, isExceededResolved]
   )

@@ -366,7 +366,7 @@ export default abstract class AbstractAISDKModel implements ModelInterface {
     }
     const model = createRetryable({
       model: baseModel,
-      retries: [retryableStatusAttempt],
+      retries: this.name.startsWith('Custom ') ? [] : [retryableStatusAttempt], // Playground generations require explicit retries.
       onError: (context) => {
         if (isErrorAttempt(context.current)) {
           const { error } = context.current
@@ -1040,7 +1040,7 @@ export default abstract class AbstractAISDKModel implements ModelInterface {
 
     const model = createRetryable({
       model: baseModel,
-      retries: [retryableStatusAttempt],
+      retries: this.name.startsWith('Custom ') ? [] : [retryableStatusAttempt], // Playground generations require explicit retries.
       onError: (context) => {
         if (isErrorAttempt(context.current)) {
           const { error } = context.current

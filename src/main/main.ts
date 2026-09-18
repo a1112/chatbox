@@ -5,10 +5,12 @@ import './pdfjs-globals'
 
 // Validate QA profile and task isolation before any Electron module can touch userData.
 import { CHATBOX_QA_PREFLIGHT } from './qa-preflight'
+import './playground-profile'
 
 // solve electron breaking changes, see https://www.electronjs.org/docs/latest/breaking-changes#behavior-changed-directory-databases-in-userdata-will-be-deleted
 // since 1.21.0, and this NEEDS to be the first import that initializes Electron's app module.
 import './legacy-database-migration'
+import './playground-credentials'
 
 /* eslint global-require: off, no-console: off, promise/always-return: off */
 

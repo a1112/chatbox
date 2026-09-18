@@ -1,5 +1,5 @@
-productName: Chatbox
-appId: xyz.chatboxapp.app
+productName: ModelPlayground
+appId: local.modelbase.playground
 asar: true
 asarUnpack:
   - "**/*.{node,dll}"
@@ -51,10 +51,7 @@ win:
         - arm64
   verifyUpdateCodeSignature: false
   artifactName: ${productName}-${version}-Setup.${ext}
-  signtoolOptions:
-    sign: ./custom_win_sign.js
-    signingHashAlgorithms:
-      - sha256
+  signAndEditExecutable: false
 
 nsis:
   oneClick: false
@@ -81,6 +78,10 @@ directories:
 
 extraResources:
   - ./assets/**
+  - from: LICENSE
+    to: LICENSE
+  - from: PLAYGROUND_CHANGES.md
+    to: PLAYGROUND_CHANGES.md
 
 publish:
   - provider: s3

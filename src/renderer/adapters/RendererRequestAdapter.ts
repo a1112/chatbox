@@ -1,4 +1,5 @@
 import type { ApiRequestOptions, RequestAdapter } from '@shared/types/adapters'
+import { playgroundRequest } from '@/playground/runtime'
 
 export interface RendererApiRequestClient {
   post(
@@ -33,6 +34,10 @@ export class RendererRequestAdapter implements RequestAdapter {
   }
 
   apiRequest(options: ApiRequestOptions): Promise<Response> {
+    return playgroundRequest(options, (next) => this.nativeRequest(next))
+  }
+
+  private nativeRequest(options: ApiRequestOptions): Promise<Response> {
     if (options.method === 'POST') {
       return this.apiRequestClient.post(options.url, options.headers || {}, options.body, {
         signal: options.signal,

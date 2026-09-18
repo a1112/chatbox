@@ -1,5 +1,6 @@
 import type { SettingsStoragePort } from '@chatbox/core/ports'
 import storage from '@/storage'
+import { restoreSettings, stripSettings } from '@/playground/credentials'
 
 export const SETTINGS_STORAGE_KEY = 'settings'
 
@@ -11,11 +12,11 @@ export const SETTINGS_STORAGE_KEY = 'settings'
  */
 export class RendererSettingsStorage implements SettingsStoragePort {
   read(): Promise<unknown> {
-    return storage.getItem(SETTINGS_STORAGE_KEY, null)
+    return storage.getItem(SETTINGS_STORAGE_KEY, null).then(restoreSettings)
   }
 
   write(value: unknown): Promise<void> {
-    return storage.setItem(SETTINGS_STORAGE_KEY, value)
+    return storage.setItem(SETTINGS_STORAGE_KEY, stripSettings(value))
   }
 
   remove(): Promise<void> {

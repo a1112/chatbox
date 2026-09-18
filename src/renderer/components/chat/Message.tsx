@@ -726,6 +726,7 @@ const _Message: FC<Props> = (props) => {
             },
           ]
         : []),
+      { text: '请求调试', icon: IconCode, onClick: () => window.dispatchEvent(new CustomEvent('playground-open')) },
       ...(process.env.NODE_ENV === 'development'
         ? [
             {

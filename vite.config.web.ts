@@ -58,7 +58,7 @@ export default defineConfig({
     modules: {
       generateScopedName: '[name]__[local]___[hash:base64:5]',
     },
-    postcss: './postcss.config.cjs',
+    postcss: './postcss.config.js',
   },
   optimizeDeps: {
     include: ['mermaid'],
