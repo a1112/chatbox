@@ -1,4 +1,8 @@
 {
+  "You can also adjust Max Output Tokens in <settings>Conversation Settings</settings>.": "也可在<settings>对话设置</settings>中调整最大输出 Token。",
+  "The response was interrupted by the provider’s content safety filter. Try rephrasing your request.": "回复因触发服务商的内容安全过滤而中断，请尝试调整提问内容。",
+  "The model reached the length limit for this response, so the content may be incomplete. Send “Continue” to ask it to keep going.": "模型本次回复已达到长度上限，内容可能尚未完成。可发送“继续生成”，让模型接着回复。",
+  "The response was interrupted by an error. Please try again.": "回复因错误而中断，请重试。",
   " for free now!": "立即免费体验！",
   "(Remaining/Total)": "(剩余/总量)",
   ") — Detailed feature documentation\n- 🆘 [Help Center](": ") — 详细功能文档\n- 🆘 [帮助中心](",
@@ -64,7 +68,7 @@
   "AI Explain": "AI 解释",
   "AI explanation consumes additional tokens": "AI 解释会消耗额外 token",
   "ai provider no implemented paint tips": "当前 AI 模型提供方（{{aiProvider}}）暂时不支持绘图功能，目前仅 Chatbox AI、 OpenAI 与 Azure OpenAI 支持该功能，如有需要请<0>打开设置切换</0> AI 模型提供方",
-  "AI-generated content may be inaccurate. Please verify important information.": "AI 生成的内容可能不准确。请核实重要信息。",
+  "AI can be wrong. Verify key facts.": "AI 可能出错，请核实重要信息。",
   "AI-generated images may not be accurate. Review output carefully.": "AI 生成的图像可能不准确。请仔细核对输出内容。",
   "AIHubMix integration in Chatbox offers 10% discount": "在Chatbox中接入AIHubMix可享受10%优惠",
   "All": "全部",

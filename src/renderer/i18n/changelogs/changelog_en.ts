@@ -1,4 +1,20 @@
 const changelog = `
+## v1.23.5 - 2026.09.24
+1. Fixed external one-click MCP setup links failing to open the prefilled server dialog when the app was not running
+
+## v1.23.4 - 2026.09.23
+1. You can now edit the last output of a Work Mode reply
+2. Fixed Image Creator history going blank or failing to finish loading when a record is incomplete
+3. Fixed undoing a new topic sometimes deleting the previous conversation
+4. Fixed leftover digits in the message input after pasting during nine-key typing
+
+## v1.23.3 - 2026.09.17
+1. When a reply is cut off, you'll see why and how to continue
+2. Fixed thinking controls for DeepSeek V4.1 Flash
+3. Added Turkish as an interface language
+4. Image generation model pickers now show model icons
+5. Improved OpenCode Go and Zen connectivity on mobile and the web
+
 ## v1.23.2 - 2026.09.10
 1. Added OAuth authorization for remote MCP servers, with connection controls and a refreshable tool list in server settings
 2. Added custom conversation compaction prompts and one-time instructions, with improved compaction scope and trigger accuracy

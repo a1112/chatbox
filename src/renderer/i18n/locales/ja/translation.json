@@ -1,4 +1,8 @@
 {
+  "You can also adjust Max Output Tokens in <settings>Conversation Settings</settings>.": "<settings>会話設定</settings>で最大出力トークン数を調整することもできます。",
+  "The response was interrupted by the provider’s content safety filter. Try rephrasing your request.": "プロバイダーのコンテンツ安全フィルターにより回答が中断されました。質問の内容を変えてお試しください。",
+  "The model reached the length limit for this response, so the content may be incomplete. Send “Continue” to ask it to keep going.": "モデルの今回の回答が長さの上限に達したため、内容が未完了の可能性があります。「続きを生成して」と送信して、続きを依頼できます。",
+  "The response was interrupted by an error. Please try again.": "エラーにより回答が中断されました。もう一度お試しください。",
   " for free now!": "今すぐ無料で利用可能！",
   "(Remaining/Total)": "(残量/合計)",
   ") — Detailed feature documentation\n- 🆘 [Help Center](": ") — 詳細な機能ドキュメント\n- 🆘 [ヘルプセンター](",
@@ -64,7 +68,7 @@
   "AI Explain": "AI Explain",
   "AI explanation consumes additional tokens": "AI explanation consumes additional Tokens",
   "ai provider no implemented paint tips": "現在のAIモデルプロバイダー（{{aiProvider}}）は、現時点では描画機能をサポートしていません。現在、この機能を提供しているのはChatbox AI、OpenAI、Azure OpenAIのみです。必要に応じて、<0>設定に移動</0>してAIモデルプロバイダーを切り替えてください。",
-  "AI-generated content may be inaccurate. Please verify important information.": "AIが生成したコンテンツは不正確な場合があります。重要な情報は確認してください。",
+  "AI can be wrong. Verify key facts.": "AIも間違えます。重要な情報は確認を。",
   "AI-generated images may not be accurate. Review output carefully.": "AIが生成する画像は正確ではない場合があります。出力内容を慎重に確認してください。",
   "AIHubMix integration in Chatbox offers 10% discount": "ChatboxでのAIHubMix統合により10%割引が適用されます",
   "All": "すべて",

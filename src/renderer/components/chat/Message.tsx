@@ -8,10 +8,15 @@ import {
   shouldShowConcurrentReplyStop,
 } from '@chatbox/core/session/action-gates'
 import { isCancellableGeneratingAssistantMessage } from '@chatbox/core/session/generation-state'
-import { isActionAvailableInMode, type SessionMode } from '@chatbox/core/session/mode-policy'
+import { getMessageFinishTip } from '@chatbox/core/session/message-finish-tip'
+import {
+  isActionAvailableInMode,
+  type SessionMode,
+  shouldRestrictMessageEditToLastOutput,
+} from '@chatbox/core/session/mode-policy'
 import type { PromptCacheDeleteTarget } from '@chatbox/core/session/prompt-cache-policy'
 import NiceModal from '@ebay/nice-modal-react'
-import { ActionIcon, type ActionIconProps, Button, Flex, Loader, Modal, Stack, Text } from '@mantine/core'
+import { ActionIcon, type ActionIconProps, Anchor, Button, Flex, Loader, Modal, Stack, Text } from '@mantine/core'
 import { Box, Grid, useTheme } from '@mui/material'
 import { TestId } from '@shared/automation/testids'
 import { findMessageLocation } from '@shared/session/message-forks'
@@ -41,7 +46,7 @@ import clsx from 'clsx'
 import * as dateFns from 'date-fns'
 import type React from 'react'
 import { type FC, forwardRef, type MouseEventHandler, memo, useCallback, useMemo, useRef, useState } from 'react'
-import { useTranslation } from 'react-i18next'
+import { Trans, useTranslation } from 'react-i18next'
 import { trackAgentModeSuggestionAction } from '@/analytics/agent-mode'
 import { trackJkClickEvent } from '@/analytics/jk'
 import { JK_EVENTS, JK_PAGE_NAMES } from '@/analytics/jk-events'
@@ -249,13 +254,15 @@ const _Message: FC<Props> = (props) => {
   const generationLocked = isGenerationLocked(sessionLocks)
 
   // Static mode policy (hidden entries), as opposed to the transient
-  // sessionLocks gates (disabled + notice). Work mode allows delete;
-  // user messages may only be edited together with a resend.
+  // sessionLocks gates (disabled + notice). Work mode allows delete and
+  // assistant edits (last output text only); user messages may only be
+  // edited together with a resend.
   const canReplyBelow = isActionAvailableInMode('reply-below', sessionMode)
   const canDeleteMessage = isActionAvailableInMode('delete-message', sessionMode)
   const [confirmCacheBreakingDelete, setConfirmCacheBreakingDelete] = useState(false)
   const canEditMessage = msg.role === 'user' || isActionAvailableInMode('edit-assistant-message', sessionMode)
-  const editIsResendOnly = !isActionAvailableInMode('save-message-edit', sessionMode)
+  const editIsResendOnly = msg.role === 'user' && !isActionAvailableInMode('save-message-edit', sessionMode)
+  const lastOutputTextOnly = shouldRestrictMessageEditToLastOutput(sessionMode, msg.role)
 
   const notifyActionBlocked = useCallback(
     (reason: SessionActionBlockReason) => {
@@ -441,8 +448,8 @@ const _Message: FC<Props> = (props) => {
     // regenerate-class action and stays locked like Retry.
     const resendGate = getSessionActionGate('save-and-resend', sessionLocks, { messageGenerating: msg.generating })
     if (editIsResendOnly && !resendGate.allowed) {
-      // Work mode edits must resend; with the resend gate closed the editor
-      // would have no primary action left, so surface the block instead.
+      // Work-mode user edits must resend; with the resend gate closed the
+      // editor would have no primary action left, so surface the block instead.
       notifyActionBlocked(resendGate.reason)
       return
     }
@@ -451,8 +458,9 @@ const _Message: FC<Props> = (props) => {
       msg,
       hideSaveAndResend: !resendGate.allowed,
       resendOnly: editIsResendOnly,
+      lastOutputTextOnly,
     })
-  }, [sessionLocks, msg, notifyActionBlocked, sessionId, editIsResendOnly])
+  }, [sessionLocks, msg, notifyActionBlocked, sessionId, editIsResendOnly, lastOutputTextOnly])
 
   const onViewMessageJson = useCallback(async () => {
     await NiceModal.show('json-viewer', { title: t('Message Raw JSON'), data: msg })
@@ -498,9 +506,7 @@ const _Message: FC<Props> = (props) => {
     }
   }
 
-  if (msg.finishReason && ['content-filter', 'length', 'error'].includes(msg.finishReason)) {
-    tips.push({ label: msg.finishReason })
-  }
+  const finishTip = getMessageFinishTip(msg, t)
 
   if (showMessageTimestamp && msg.timestamp !== undefined) {
     const date = new Date(msg.timestamp)
@@ -1077,6 +1083,27 @@ const _Message: FC<Props> = (props) => {
           </div>
         )}
         {!isBubbleLayout && msg.error && <div className="mt-2">{errorTipsElement}</div>}
+        {finishTip && (
+          <Flex align="flex-start" gap={6} mt="xs" role="status">
+            <ScalableIcon icon={IconInfoCircle} size={14} className="flex-none mt-[2px] text-chatbox-tint-tertiary" />
+            <Text size="xs" c="chatbox-tertiary" lh={1.45}>
+              {finishTip}
+              {msg.finishReason === 'length' && (
+                <>
+                  {' '}
+                  <Trans
+                    i18nKey="You can also adjust Max Output Tokens in <settings>Conversation Settings</settings>."
+                    components={{
+                      settings: (
+                        <Anchor component="button" size="xs" c="chatbox-brand" onClick={onClickAssistantAvatar} />
+                      ),
+                    }}
+                  />
+                </>
+              )}
+            </Text>
+          </Flex>
+        )}
         {leadingStatuses && leadingStatuses.length > 0 && <div className="mt-2">{statusElements}</div>}
       </div>
     </>
