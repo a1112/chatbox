@@ -70,7 +70,9 @@
     "sync:error-i18n-keys": "node script/sync-error-i18n-keys.mjs",
     "translate": "pnpm run sync:error-i18n-keys && i18next && node script/translate.mjs",
     "storybook": "cross-env NODE_OPTIONS=\"--require=./.storybook/ignore-root-env.cjs\" storybook dev -p 6006",
-    "build-storybook": "cross-env NODE_OPTIONS=\"--require=./.storybook/ignore-root-env.cjs\" storybook build"
+    "build-storybook": "cross-env NODE_OPTIONS=\"--require=./.storybook/ignore-root-env.cjs\" storybook build",
+    "test:permissions": "vitest run --config vitest.permissions.config.ts",
+    "check:permissions": "tsc --project tsconfig.permissions.json"
   },
   "repository": {
     "type": "git",

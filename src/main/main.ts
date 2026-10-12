@@ -950,10 +950,16 @@ ipcMain.handle('clearLogs', async () => {
   }
 })
 
+ipcMain.handle('getAutoLaunchState', () => {
+  if (isDebug) return { enabled: null, status: 'unsupported' }
+  return autoLauncher.read()
+})
+
 ipcMain.handle('ensureAutoLaunch', (event, enable: boolean) => {
+  if (typeof enable !== 'boolean') throw new TypeError('Expected a boolean login-item preference')
   if (isDebug) {
     log.info('ensureAutoLaunch: skip by debug mode')
-    return
+    return { enabled: null, status: 'unsupported' }
   }
   return autoLauncher.ensure(enable)
 })

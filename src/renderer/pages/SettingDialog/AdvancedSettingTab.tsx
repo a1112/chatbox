@@ -1,3 +1,4 @@
+import { AutoLaunchSetting } from '@/components/settings/AutoLaunchSetting'
 import {
   Box,
   Button,
@@ -93,19 +94,7 @@ export default function AdvancedSettingTab(props: Props) {
 
       {platform.type === 'desktop' && (
         <Box className="mt-2">
-          <FormGroup>
-            <FormControlLabel
-              control={<Switch />}
-              label={t('Launch at system startup')}
-              checked={settingsEdit.autoLaunch}
-              onChange={(e, checked) =>
-                setSettingsEdit({
-                  ...settingsEdit,
-                  autoLaunch: checked,
-                })
-              }
-            />
-          </FormGroup>
+          <AutoLaunchSetting />
         </Box>
       )}
       {platform.type === 'desktop' && (

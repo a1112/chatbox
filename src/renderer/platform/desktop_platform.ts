@@ -1,5 +1,6 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <any> */
 
+import type { AutoLaunchState } from '@shared/auto-launch'
 import type { AnalyticsEventParams } from '@shared/analytics'
 import type { ElectronIPC } from '@shared/electron-types'
 import type {
@@ -249,7 +250,11 @@ export default class DesktopPlatform implements Platform {
     return this.ipc.invoke('clearLogs')
   }
 
-  public async ensureAutoLaunch(enable: boolean) {
+  public async getAutoLaunchState(): Promise<AutoLaunchState> {
+    return this.ipc.invoke('getAutoLaunchState')
+  }
+
+  public async ensureAutoLaunch(enable: boolean): Promise<AutoLaunchState> {
     return this.ipc.invoke('ensureAutoLaunch', enable)
   }
 

@@ -1,3 +1,4 @@
+import type { AutoLaunchState } from '@shared/auto-launch'
 import { App } from '@capacitor/app'
 import { Browser } from '@capacitor/browser'
 import { Device } from '@capacitor/device'
@@ -272,8 +273,12 @@ export default class MobilePlatform extends MobileSQLiteStorage implements Platf
     return mobileLogger.clearLogs()
   }
 
-  public async ensureAutoLaunch(enable: boolean) {
-    return
+  public async getAutoLaunchState(): Promise<AutoLaunchState> {
+    return { enabled: null, status: 'unsupported' }
+  }
+
+  public async ensureAutoLaunch(_enable: boolean): Promise<AutoLaunchState> {
+    return { enabled: null, status: 'unsupported' }
   }
 
   async parseFileLocally(file: File): Promise<{ key?: string; isSupported: boolean; errorCode?: string }> {

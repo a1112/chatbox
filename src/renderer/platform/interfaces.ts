@@ -1,4 +1,5 @@
 /** biome-ignore-all lint/suspicious/noExplicitAny: <any> */
+import type { AutoLaunchState } from '@shared/auto-launch'
 import type { LocalMemoryScanResult } from '@shared/agent-persona/memory-import'
 import type { AnalyticsEventParams } from '@shared/analytics'
 import type { PlatformType as SharedPlatformType } from '@shared/platform'
@@ -98,7 +99,8 @@ export interface Platform extends Storage {
   exportLogs(): Promise<string> // 返回日志内容
   clearLogs(): Promise<void> // 清空日志
 
-  ensureAutoLaunch(enable: boolean): Promise<void>
+  getAutoLaunchState(): Promise<AutoLaunchState>
+  ensureAutoLaunch(enable: boolean): Promise<AutoLaunchState>
 
   parseFileLocally(file: File): Promise<{ key?: string; isSupported: boolean; errorCode?: string }>
   getLocalFilePath(file: File): string

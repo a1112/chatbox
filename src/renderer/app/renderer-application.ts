@@ -28,9 +28,6 @@ const settingsEffectsHost = {
   ensureProxyConfig: (...args: Parameters<typeof platform.ensureProxyConfig>) => {
     void platform.ensureProxyConfig(...args)
   },
-  ensureAutoLaunch: (...args: Parameters<typeof platform.ensureAutoLaunch>) => {
-    void platform.ensureAutoLaunch(...args)
-  },
 }
 
 const common: Omit<CreateRendererApplicationOptions, 'host'> = {

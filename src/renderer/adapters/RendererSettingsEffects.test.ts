@@ -1,7 +1,7 @@
 import { SettingsService } from '@chatbox/core/application/settings'
 import type { SettingsStoragePort } from '@chatbox/core/ports'
 import { describe, expect, test, vi } from 'vitest'
-import { RendererSettingsEffects, type RendererSettingsEffectsHost } from './RendererSettingsEffects'
+import { RendererSettingsEffects } from './RendererSettingsEffects'
 
 const memoryStorage: SettingsStoragePort = {
   read: async () => null,
@@ -10,9 +10,9 @@ const memoryStorage: SettingsStoragePort = {
 }
 
 describe('RendererSettingsEffects', () => {
-  test('projects only host-owned shortcut, proxy and auto-launch changes', () => {
+  test('projects shortcut and proxy changes without applying saved login-item preferences', () => {
     const service = new SettingsService(memoryStorage, { isDesktopLike: true })
-    const host: RendererSettingsEffectsHost = {
+    const host = {
       ensureShortcutConfig: vi.fn(),
       ensureProxyConfig: vi.fn(),
       ensureAutoLaunch: vi.fn(),
@@ -33,10 +33,10 @@ describe('RendererSettingsEffects', () => {
     }))
     expect(host.ensureShortcutConfig).toHaveBeenCalledOnce()
     expect(host.ensureProxyConfig).toHaveBeenCalledWith({ proxy: 'http://127.0.0.1:7890' })
-    expect(host.ensureAutoLaunch).toHaveBeenCalledWith(true)
+    expect(host.ensureAutoLaunch).not.toHaveBeenCalled()
 
     effects.stop()
     service.updateSettings({ autoLaunch: false })
-    expect(host.ensureAutoLaunch).toHaveBeenCalledOnce()
+    expect(host.ensureAutoLaunch).not.toHaveBeenCalled()
   })
 })

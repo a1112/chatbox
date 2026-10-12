@@ -1,39 +1,33 @@
 import AutoLaunch from 'auto-launch'
-import { getSettings } from './store-node'
+import { app } from 'electron'
+import type { AutoLaunchState } from '../shared/auto-launch'
+import { createLoginItemManager, macLoginItemState } from './login-item'
 
-// 开机自启动
-let _autoLaunch: AutoLaunch | null = null
-
-export function get() {
-  if (!_autoLaunch) {
-    _autoLaunch = new AutoLaunch({ name: 'Chatbox' })
-  }
-  return _autoLaunch
+let autoLaunch: AutoLaunch | null = null
+function getLegacyLauncher() {
+  autoLaunch ??= new AutoLaunch({ name: 'Chatbox' })
+  return autoLaunch
 }
 
-export async function sync() {
-  const autoLaunch = get()
-  const settings = getSettings()
-  const isEnabled = await autoLaunch.isEnabled()
-  if (!isEnabled && settings.autoLaunch) {
-    await autoLaunch.enable()
-    return
-  }
-  if (isEnabled && !settings.autoLaunch) {
-    await autoLaunch.disable()
-    return
-  }
-}
+const manager = createLoginItemManager({
+  async read(): Promise<AutoLaunchState> {
+    if (process.platform === 'darwin') {
+      return macLoginItemState(app.getLoginItemSettings())
+    }
+    const enabled = await getLegacyLauncher().isEnabled()
+    return { enabled, status: enabled ? 'enabled' : 'disabled' }
+  },
+  async write(enabled: boolean) {
+    if (process.platform === 'darwin') {
+      // Native ServiceManagement/legacy fallback, not System Events scripting.
+      // Its void return is NOT proof of success; the manager re-reads state.
+      app.setLoginItemSettings({ openAtLogin: enabled })
+      return
+    }
+    if (enabled) await getLegacyLauncher().enable()
+    else await getLegacyLauncher().disable()
+  },
+})
 
-export async function ensure(enable: boolean) {
-  const autoLaunch = get()
-  const isEnabled = await autoLaunch.isEnabled()
-  if (!isEnabled && enable) {
-    await autoLaunch.enable()
-    return
-  }
-  if (isEnabled && !enable) {
-    await autoLaunch.disable()
-    return
-  }
-}
+export const read = manager.read
+export const ensure = manager.ensure

@@ -1,3 +1,4 @@
+import type { AutoLaunchState } from '@shared/auto-launch'
 import { type AnalyticsEventParams, GOOGLE_ANALYTICS_MEASUREMENT_ID } from '@shared/analytics'
 import * as defaults from '@shared/defaults'
 import type { Config, Settings, ShortcutSetting } from '@shared/types'
@@ -156,8 +157,12 @@ export default class WebPlatform extends IndexedDBStorage implements Platform {
     return webLogger.clearLogs()
   }
 
-  public async ensureAutoLaunch(enable: boolean) {
-    return
+  public async getAutoLaunchState(): Promise<AutoLaunchState> {
+    return { enabled: null, status: 'unsupported' }
+  }
+
+  public async ensureAutoLaunch(_enable: boolean): Promise<AutoLaunchState> {
+    return { enabled: null, status: 'unsupported' }
   }
 
   async parseFileLocally(file: File): Promise<{ key?: string; isSupported: boolean; errorCode?: string }> {

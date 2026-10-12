@@ -4,7 +4,6 @@ import type { Settings } from '@shared/types'
 export interface RendererSettingsEffectsHost {
   ensureShortcutConfig(shortcuts: Settings['shortcuts']): void
   ensureProxyConfig(options: { proxy?: string }): void
-  ensureAutoLaunch(enabled: boolean): void
 }
 
 /**
@@ -27,9 +26,8 @@ export class RendererSettingsEffects {
       if (settings.proxy !== previousSettings.proxy) {
         this.host.ensureProxyConfig({ proxy: settings.proxy })
       }
-      if (Boolean(settings.autoLaunch) !== Boolean(previousSettings.autoLaunch)) {
-        this.host.ensureAutoLaunch(settings.autoLaunch)
-      }
+      // Login-item changes are explicit actions. Hydration, backup restore and
+      // native-state reconciliation must never enable or disable OS settings.
     })
   }
 

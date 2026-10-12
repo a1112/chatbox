@@ -1,0 +1,18 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "incremental": false,
+    "noEmit": true,
+    "types": ["node"]
+  },
+  "include": [
+    "src/shared/auto-launch.ts",
+    "src/main/autoLauncher.ts",
+    "src/main/autoLauncher.test.ts",
+    "src/main/login-item.ts",
+    "src/main/login-item.test.ts",
+    "src/renderer/adapters/AutoLaunchController.ts",
+    "src/renderer/adapters/AutoLaunchController.test.ts",
+    "vitest.permissions.config.ts"
+  ]
+}

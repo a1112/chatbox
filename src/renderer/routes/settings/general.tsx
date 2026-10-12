@@ -1,3 +1,4 @@
+import { AutoLaunchSetting } from '@/components/settings/AutoLaunchSetting'
 import {
   ActionIcon,
   Alert,
@@ -492,15 +493,7 @@ export function RouteComponent() {
           <Divider />
 
           <Stack gap="xl">
-            <Switch
-              label={t('Launch at system startup')}
-              checked={settings.autoLaunch}
-              onChange={(e) =>
-                setSettings({
-                  autoLaunch: e.currentTarget.checked,
-                })
-              }
-            />
+            <AutoLaunchSetting />
             <Switch
               label={t('Automatic updates')}
               checked={settings.autoUpdate}

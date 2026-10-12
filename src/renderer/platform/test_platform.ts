@@ -7,6 +7,7 @@
  * - 可导出会话结果到文件
  */
 
+import type { AutoLaunchState } from '@shared/auto-launch'
 import type { AnalyticsEventParams } from '@shared/analytics'
 import * as defaults from '@shared/defaults'
 import type { Config, Language, Settings, ShortcutSetting } from '@shared/types'
@@ -312,8 +313,12 @@ export default class TestPlatform implements Platform {
     // no-op
   }
 
-  public async ensureAutoLaunch(enable: boolean): Promise<void> {
-    // no-op
+  public async getAutoLaunchState(): Promise<AutoLaunchState> {
+    return { enabled: null, status: 'unsupported' }
+  }
+
+  public async ensureAutoLaunch(_enable: boolean): Promise<AutoLaunchState> {
+    return { enabled: null, status: 'unsupported' }
   }
 
   public async parseFileLocally(file: File): Promise<{ key?: string; isSupported: boolean }> {
